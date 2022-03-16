@@ -1,33 +1,62 @@
-# Project
+# React and promise based task flow library
+Now a lot of features are task flow based. You could break features into a seriese of tasks with order and dependency. For example, to start task C, you have to wait for task A / B and then take their outputs for further process. To express and reuse task flow easily, it could help improve development efficiency. We would refer task flow as Workflow in code.
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+## Example
+Take the task flow below, there are 4 params for input. The task flow would add all 4 params with 3 add nodes and then double the sum with double node. Then the double node's result would be set as task flow's output.
 
-As the maintainer of this project, please make a few updates:
+![SampleTaskFlow](./md/SampleTaskFlow.png)
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+The task flow above could be expressed with react jsx style below,
+```typescript
+<WorkflowComponent>
+    <InputNodeComponent params={["num1", "num2", "num3", "num4"]} />
+    <NodeComponent name="add1" gen={addFunc} deps={["num1", "num2"]} />
+    <NodeComponent name="add2" gen={addFunc} deps={["num3", "num4"]} />
+    <NodeComponent name="add3" gen={addFunc} deps={["add1", "add2"]} />
+    <NodeComponent name="double" gen={doubleFunc} deps={["add3"]} />
+    <OutputNodeComponent name="res" dep="double" />
+</WorkflowComponent>
+```
+As you could tell from the code above, there is a container tag *WorkflowComponent*. Inside the container, there is first a *InputNodeComponent* node with *params* which is a array of name of the input parameters. *NodeComponent* add1 would take num1 and num2 defined within *InputNodeComponent* node to compute the add result with addFunc. After two node add1 and add2 finish work, add3 would take their outputs to run addFunc again with result passed to double node. Finally the result of double node computed by doubleFunc, would be set as task flow's output with alias res.
 
-## Contributing
+If you want to define a re-usable task flow, then you could define a function with props to wrap the workflow.
+```typescript
+function ComputationWorkflow(props: WorkflowInputProps) {
+    return (<WorkflowComponent {...props}>
+            <InputNodeComponent params={["num1", "num2", "num3", "num4"]} />
+            <NodeComponent name="add1" gen={addFunc} deps={["num1", "num2"]} />
+            <NodeComponent name="add2" gen={addFunc} deps={["num3", "num4"]} />
+            <NodeComponent name="add3" gen={addFunc} deps={["add1", "add2"]} />
+            <NodeComponent name="double" gen={doubleFunc} deps={["add3"]} />
+            <OutputNodeComponent name="res" dep="double" />
+        </WorkflowComponent>
+    )
+}
+```
+And in a new task flow, reuse the task flow by passsing the params. Then chain the current task flow output to parent taks flow's output node.
+```typescript
+<WorkflowComponent>
+    <InputNodeComponent params={["num1", "num2", "num3", "num4"]} />
+    <ComputationWorkflow name="comp" params={["num1", "num2", "num3", "num4"]} />
+    <OutputNodeComponent name="res" dep="comp.res" />
+</WorkflowComponent>
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+```
+Once you have defined jsx task flow, you could use buildJsxWorkflow to generate the task flow data structure. And with createWorkflowExecutor, then you could run workflow with the executor. Please reference example and test folder for more.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## Development Setup
+Please install vscode as IDE
+```ini
+# install
+npm install
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+# build
+npm run build
 
-## Trademarks
+# test
+npm run test
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+# lint
+npm run lint
+```
+To debug test case, set sourceMap to be true in tsconfig.json, set configuration to be Jest Current File, open test file and run Start Debugging from vscode menu.
