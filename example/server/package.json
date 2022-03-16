@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "workflow server demo",
+  "main": "index.js",
+  "scripts": {
+    "build": "node node_modules/webpack/bin/webpack",
+    "start": "node ./dist/server.bundle.js",
+    "dev": "npm run build && npm run start"
+  },
+  "keywords": [
+    "nodejs",
+    "server",
+    "taskflow",
+    "react"
+  ],
+  "author": "David Zeng",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3",
+    "react": "^17.0.2",
+    "taskflow-react": "^0.2.1"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

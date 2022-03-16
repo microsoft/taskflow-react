@@ -1,0 +1,54 @@
+{
+  "name": "taskflow-react",
+  "version": "0.2.1",
+  "description": "A promise and react based jsx style task flow library",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "pub": "npm run build && npm publish",
+    "test": "jest",
+    "lint": "eslint src/**"
+  },
+  "keywords": [
+    "taskflow",
+    "typescript",
+    "jsx",
+    "react"
+  ],
+  "author": "David Zeng",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2",
+    "typescript": "^4.6.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21",
+    "@types/react": "^17.0.40",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.11.0",
+    "rollup": "^2.70.0",
+    "rollup-plugin-dts": "^4.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.31.2",
+    "ts-jest": "^27.1.3"
+  },
+  "files": [
+    "/dist"
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/test/*.test.tsx",
+      "<rootDir>/test/*.test.ts"
+    ]
+  }
+}
