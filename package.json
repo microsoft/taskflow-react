@@ -1,6 +1,6 @@
 {
   "name": "taskflow-react",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A promise and react based jsx style task flow library",
   "main": "./dist/index.js",
   "scripts": {
