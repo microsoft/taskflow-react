@@ -32,6 +32,25 @@ function getNodeId(name: string) : number {
 
 type customWorkflowFunc = (...params: any[]) => any;
 
+function resolveTillWorkflowComponent(element: React.ReactElement) : React.ReactElement{
+    while(true) {
+        if (typeof element.type != 'function') {
+            throw 'non functional component'
+        }
+
+        if (element.type == WorkflowComponent) {
+            break
+        }
+
+        element = (element.type as customWorkflowFunc).call(null, element.props)
+        if (typeof element != 'object') {
+            throw 'non react element'
+        }
+    }
+    
+    return element
+}
+
 function buildSubWorkflow(element: React.ReactElement, prefix: string) : WorkflowNode[] {
     const props: WorkflowInputProps = element.props
     const children : React.ReactElement[] = element.props["children"]
@@ -96,11 +115,7 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
                 gen: nodeProps.gen
             })
         } else {
-            let runElement: React.ReactElement = child
-            while(runElement.type != WorkflowComponent) {
-                runElement = (runElement.type as customWorkflowFunc).call(null, child.props)
-            }
-            
+            let runElement: React.ReactElement = resolveTillWorkflowComponent(child)            
             nodes = nodes.concat(buildSubWorkflow(runElement, workflowName))
         }
     }
@@ -109,11 +124,7 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
 }
 
 export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workflow{
-    let element: React.ReactElement = elementDefinition
-    while (element.type != WorkflowComponent) {
-        element = (element.type as customWorkflowFunc).call(null)
-    }
-
+    let element: React.ReactElement = resolveTillWorkflowComponent(elementDefinition)
     const props: WorkflowProps = element.props;
     const children : React.ReactElement[] = props.children
     const workflowName = ""
@@ -174,11 +185,7 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
                 gen: childProps.gen
             })
         } else {
-            let runElement: React.ReactElement = child
-            while(runElement.type != WorkflowComponent) {
-                runElement = (runElement.type as customWorkflowFunc).call(null, child.props)
-            }
-
+            let runElement: React.ReactElement = resolveTillWorkflowComponent(child)
             innerNodes = innerNodes.concat(buildSubWorkflow(runElement, workflowName));
         }
     }
