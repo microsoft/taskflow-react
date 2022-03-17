@@ -1,4 +1,4 @@
-import { WorkflowInputProps } from "../dist";
+import { WorkflowInputProps } from "../src/WorkflowComponent";
 import { buildJsxWorkflow } from "../src/ReactElementWorkflowBuilder";
 import { validateWorkflow, WorkflowValidationStatus } from "../src/Workflow";
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent } from "../src/WorkflowComponent";
