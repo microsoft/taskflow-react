@@ -1,6 +1,6 @@
 import { FreState } from "../views/FrePage";
 import { freController } from "./FreController";
-import {WorkflowExecutionNode, WorkflowCompoent, NodeComponent, buildJsxWorkflow, createWorkflowExecutor} from "taskflow-react"
+import {WorkflowExecutionNode, WorkflowComponent, NodeComponent, buildJsxWorkflow, createWorkflowExecutor} from "taskflow-react"
 
 
 function firstPageNode() : WorkflowExecutionNode{
@@ -124,7 +124,7 @@ function forwardPageNode() : WorkflowExecutionNode {
 }
 
 export function createWorkflow() {
-    return <WorkflowCompoent>
+    return <WorkflowComponent>
         <NodeComponent name="firstPage" gen={firstPageNode} />
         <NodeComponent name="showFirstPageLoading" gen={showLoadingNode} deps={["firstPage"]} />
         <NodeComponent name="saveFirstPage" gen={savePage1Node} deps={["firstPage"]} />
@@ -141,7 +141,7 @@ export function createWorkflow() {
         <NodeComponent name="showthirdPageLoading" gen={showLoadingNode} deps={["thirdPage"]} />
         <NodeComponent name="saveThirdPage" gen={savePage3Node} deps={["thirdPage"]} />
         <NodeComponent name="showBusinessPage" gen={showBusinessPage} deps={["saveThirdPage"]} />
-    </WorkflowCompoent>
+    </WorkflowComponent>
 }
 
 const workflow = buildJsxWorkflow(createWorkflow());
