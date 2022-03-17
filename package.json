@@ -9,6 +9,14 @@
     "test": "jest",
     "lint": "eslint src/**"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/taskflow-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/taskflow-react/issues"
+  },
+  "homepage": "https://github.com/microsoft/taskflow-react",
   "keywords": [
     "taskflow",
     "typescript",

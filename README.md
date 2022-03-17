@@ -42,7 +42,7 @@ And in a new task flow, reuse the task flow by passsing the params. Then chain t
 </WorkflowComponent>
 
 ```
-Once you have defined jsx task flow, you could use buildJsxWorkflow to generate the task flow data structure. And with createWorkflowExecutor, then you could run workflow with the executor. Please reference example and test folder for more.
+Once you have defined jsx task flow, you could use buildJsxWorkflow to generate the task flow data structure. And with createWorkflowExecutor, then you could run workflow with the executor. Please reference **example** and **test** folder for more.
 
 ## Development Setup
 Please install vscode as IDE
@@ -60,3 +60,10 @@ npm run test
 npm run lint
 ```
 To debug test case, set sourceMap to be true in tsconfig.json, set configuration to be Jest Current File, open test file and run Start Debugging from vscode menu.
+
+## Notes
+Currently the task flow expression only supports **react functional component**. And it would be better to add test for build and run the task flow.
+
+For task that needs to wait for user's input like clicking button, please keep the resolve function. When user clicks the button, you run the resolve function with input needed.
+
+For UI specify task flow, it is recommended to define something like bridge to keep state and callback functions to update UI.
