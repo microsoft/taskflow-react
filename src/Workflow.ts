@@ -43,6 +43,45 @@ function circleDetection(statusArr: number[], id: number, workflow: Workflow) : 
     return true
 }
 
+function dumpNode(node: WorkflowNode) : string{
+    return '{id:' + node.id + ',deps:' + JSON.stringify(node.deps) + ',gen:' + node.gen.name + '},'
+}
+
+export function dumpWorkflow(workflow: Workflow) : string {
+    let str: string = "{"
+    str += 'inputs:['
+    for (let input of workflow.inputs) {
+        str += dumpNode(input)
+    }
+    str += '],'
+
+    str += 'zeroDepNodes:['
+    for (let node of workflow.zeroDepNodes) {
+        str += dumpNode(node)
+    }
+    str += '],'
+
+    str += 'nodes:['
+    for (let node of workflow.nodes) {
+        str += dumpNode(node)
+    }
+    str += '],'
+
+    str += 'outputs:{'
+    for (let key in workflow.outputs) {
+        str += key + ':' + JSON.stringify(workflow.outputs[key]) + ','
+    }
+    str += '},'
+
+    str += 'binding:{'
+    for (let key in workflow.binding) {
+        str += key + ':' + JSON.stringify(workflow.binding[key]) + ','
+    }
+    str += '},'
+    str += "}"
+    return str
+}
+
 export function validateWorkflow(workflow: Workflow) : WorkflowValidationStatus {
     const nodeLength = workflow.nodes.length
     if (nodeLength <= 0) {
