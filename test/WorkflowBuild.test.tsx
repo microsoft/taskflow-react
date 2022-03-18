@@ -1,7 +1,7 @@
 import { assert } from "console";
 import { buildJsxWorkflow } from "../src/ReactElementWorkflowBuilder";
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent } from "../src/WorkflowComponent";
-import { add, double } from "./NodeExample";
+import { add, double } from "./NodeWorkflowExample";
 
 test("workflow build order test", async () => {
     let workflowJsx = (<WorkflowComponent>
