@@ -62,21 +62,12 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
             const childProps: InputNodeProps = child.props
             const params: string[] = childProps.params
             for (let inx = 0; inx < params.length; ++inx) {
-                const id = genNodeId(workflowName + "." + params[inx])
-                if (id < 0) {
-                    throw "duplicate node name found " + workflowName + "." + params[inx]
-                }
-
                 const depId = getNodeId(prefix + "." + outSideParams[inx])
                 if (depId < 0) {
                     throw "dependency must be defined before it's used"
                 }
 
-                nodes.push({
-                    id: id,
-                    deps: [depId],
-                    gen: unitNodeGenerator
-                })
+                setNodeId(workflowName + "." + params[inx], depId)
             }
         } else if (child.type == OutputNodeComponent) {
             const childProps: OutputNodeProps = child.props

@@ -1,8 +1,8 @@
 import { WorkflowNode } from "./WorkflowNode";
 
 export interface Workflow {
-    inputs: WorkflowNode[];
-    zeroDepNodes: WorkflowNode[];
+    inputs: number[];
+    zeroDepNodes: number[];
     nodes: WorkflowNode[];
     outputs: Record<number, string>;
     binding: Record<number, number[]>;
@@ -49,17 +49,9 @@ function dumpNode(node: WorkflowNode) : string{
 
 export function dumpWorkflow(workflow: Workflow) : string {
     let str: string = "{"
-    str += 'inputs:['
-    for (let input of workflow.inputs) {
-        str += dumpNode(input)
-    }
-    str += '],'
+    str += `inputs:${JSON.stringify(workflow.inputs)},`
 
-    str += 'zeroDepNodes:['
-    for (let node of workflow.zeroDepNodes) {
-        str += dumpNode(node)
-    }
-    str += '],'
+    str += `zeroDepNodes:${JSON.stringify(workflow.zeroDepNodes)},`
 
     str += 'nodes:['
     for (let node of workflow.nodes) {
@@ -95,13 +87,13 @@ export function validateWorkflow(workflow: Workflow) : WorkflowValidationStatus 
     }
 
     for (const input of workflow.inputs) {
-        if (workflow.nodes.indexOf(input) < 0) {
+        if (input < 0 || input >= workflow.nodes.length) {
             return WorkflowValidationStatus.InputOutOfNodes
         }
     }
 
     for (const zeroDepNode of workflow.zeroDepNodes) {
-        if (workflow.nodes.indexOf(zeroDepNode) < 0) {
+        if (zeroDepNode < 0 || zeroDepNode >= workflow.nodes.length) {
             return WorkflowValidationStatus.ZeroDepOutOfNodes
         }
     }
