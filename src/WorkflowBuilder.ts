@@ -9,14 +9,13 @@ export interface WorkflowBuilder {
 }
 
 export function createWorkflowBuilder() : WorkflowBuilder {
-    let inputs: WorkflowNode[] = []
-    const zeroDepNodes: WorkflowNode[] = []
+    let inputs: number[] = []
+    const zeroDepNodes: number[] = []
     let outputs: Record<number, string> = {}
     let nodes: WorkflowNode[] = []
     const binding: Record<number, number[]> = {}
     const builder : WorkflowBuilder = {
         build: () => {
-            nodes = nodes.concat(inputs)
             nodes.sort((a: WorkflowNode, b: WorkflowNode) => {
                 return a.id > b.id ? 1 : -1
             })
@@ -32,8 +31,12 @@ export function createWorkflowBuilder() : WorkflowBuilder {
             return workflow
         },
     
-        input: (nodes: WorkflowNode[]) => {
-            inputs = nodes
+        input: (inputNodes: WorkflowNode[]) => {
+            nodes = nodes.concat(inputNodes)
+            for (const inputNode of inputNodes) {
+                inputs.push(inputNode.id)
+            }
+
             return builder
         },
     
@@ -45,7 +48,7 @@ export function createWorkflowBuilder() : WorkflowBuilder {
         next: (nextNodes: WorkflowNode[]) => {
             for (const node of nextNodes) {
                 if (node.deps.length == 0) {
-                    zeroDepNodes.push(node)
+                    zeroDepNodes.push(node.id)
                 }
     
                 for (const dep of node.deps) {

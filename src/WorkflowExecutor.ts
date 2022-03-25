@@ -110,16 +110,16 @@ export function createWorkflowExecutor(wf: Workflow) {
             const nodesToRun: WorkflowRunTimeNode[] = [];
             for (let inx = 0; inx < params.length; ++inx) {
                 nodesToRun.push({
-                    node: workflow.inputs[inx].gen(),
-                    id: workflow.inputs[inx].id,
+                    node: workflow.nodes[workflow.inputs[inx]].gen(),
+                    id: workflow.inputs[inx],
                     inputs: [params[inx]],
                 })
             }
     
-            for (const nodeDef of workflow.zeroDepNodes) {
+            for (const nodeId of workflow.zeroDepNodes) {
                 nodesToRun.push({
-                    node: nodeDef.gen(),
-                    id: nodeDef.id,
+                    node: workflow.nodes[nodeId].gen(),
+                    id: nodeId,
                     inputs: []
                 })
             } 
