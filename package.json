@@ -8,9 +8,7 @@
     "pub": "npm run build && npm publish",
     "test": "jest",
     "lint": "eslint src/**",
-    "conversion": "node ./bin/cli.js -w ./test/NodeWorkflowExample.tsx  -n WorkflowToTest",
-    "compile": "tsc --project tsconfig.workflow_build.json",
-    "run": "node ./_workflow_compile_/dump_workflow_script.js"
+    "conversion": "node ./bin/cli.js -w ./test/NodeWorkflowExample.tsx  -n WorkflowToTest"
   },
   "repository": {
     "type": "git",

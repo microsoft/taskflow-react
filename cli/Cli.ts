@@ -1,7 +1,7 @@
 import {program} from "commander"
 import {resolve} from "path"
 import {writeFileSync} from "fs"
-import {execSync, spawnSync} from "child_process"
+import {execSync} from "child_process"
 
 
 program.option('-w, --workflow <type>', 'relative path to workflow file')
@@ -40,13 +40,13 @@ import { buildJsxWorkflow } from "./src/ReactElementWorkflowBuilder"
 import { dumpWorkflow } from "./src/Workflow"
 import {${options.name}} from "${workflowTrimPath}"
 const workflow = buildJsxWorkflow(${options.name})
-const dumpWorkflowText = dumpWorkflow(workflow)
-console.log(dumpWorkflowText)
+export const dumpWorkflowText = dumpWorkflow(workflow)
 `
-    const workflowPath = resolve(options.workflow)
+    // const workflowPath = resolve(options.workflow)
     writeFileSync(resolve(`./${wfBuildTsConfigFileName}`), wfBuildTsConfigContent)
     writeFileSync(resolve(`./${dumpWorkflowScriptName}`), dumpWorkflowScript)
     execSync(`tsc --project ${wfBuildTsConfigFileName}`)
-    let result = execSync("cd _workflow_compile_ && node dump_workflow_script.js")
-    console.log(result)
+    const result = require("../_workflow_compile_/dump_workflow_script")
+    console.log("\x1b[32m", result["dumpWorkflowText"])
+    console.log("\x1b[37m")
 }

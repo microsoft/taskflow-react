@@ -14,11 +14,12 @@ var wfBuildTsConfigContent = "{\n    \"compilerOptions\": {\n      \"target\": \
 var dumpWorkflowScriptName = "dump_workflow_script.ts";
 if (options.workflow && options.name) {
     var workflowTrimPath = options.workflow.substring(0, options.workflow.lastIndexOf('.'));
-    var dumpWorkflowScript = "\nimport { buildJsxWorkflow } from \"./src/ReactElementWorkflowBuilder\"\nimport { dumpWorkflow } from \"./src/Workflow\"\nimport {".concat(options.name, "} from \"").concat(workflowTrimPath, "\"\nconst workflow = buildJsxWorkflow(").concat(options.name, ")\nconst dumpWorkflowText = dumpWorkflow(workflow)\nconsole.log(dumpWorkflowText)\n");
-    path.resolve(options.workflow);
+    var dumpWorkflowScript = "\nimport { buildJsxWorkflow } from \"./src/ReactElementWorkflowBuilder\"\nimport { dumpWorkflow } from \"./src/Workflow\"\nimport {".concat(options.name, "} from \"").concat(workflowTrimPath, "\"\nconst workflow = buildJsxWorkflow(").concat(options.name, ")\nexport const dumpWorkflowText = dumpWorkflow(workflow)\n");
+    // const workflowPath = resolve(options.workflow)
     fs.writeFileSync(path.resolve("./".concat(wfBuildTsConfigFileName)), wfBuildTsConfigContent);
     fs.writeFileSync(path.resolve("./".concat(dumpWorkflowScriptName)), dumpWorkflowScript);
     child_process.execSync("tsc --project ".concat(wfBuildTsConfigFileName));
-    var result = child_process.execSync("node ./_workflow_compile_/dump_workflow_script.js");
-    console.log(result);
+    var result = require("../_workflow_compile_/dump_workflow_script");
+    console.log("\x1b[32m", result["dumpWorkflowText"]);
+    console.log("\x1b[37m");
 }
