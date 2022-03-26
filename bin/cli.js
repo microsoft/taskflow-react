@@ -17,7 +17,7 @@ if (options.workflow && options.name) {
     fs.rmSync(path.resolve(dumpWorkflowScriptName), { force: true, recursive: true });
     fs.rmSync(path.resolve("./_workflow_compile_"), { force: true, recursive: true });
     var workflowTrimPath = options.workflow.substring(0, options.workflow.lastIndexOf('.'));
-    var dumpWorkflowScript = "\nimport { buildJsxWorkflow } from \"./src/ReactElementWorkflowBuilder\"\nimport { dumpWorkflow } from \"./src/Workflow\"\nimport {".concat(options.name, "} from \"").concat(workflowTrimPath, "\"\nconst workflow = buildJsxWorkflow(").concat(options.name, ")\nexport const dumpWorkflowText = dumpWorkflow(workflow)\n");
+    var dumpWorkflowScript = "\nimport { buildJsxWorkflow } from \"taskflow-react\"\nimport { dumpWorkflow } from \"taskflow-react\"\nimport {".concat(options.name, "} from \"").concat(workflowTrimPath, "\"\nconst workflow = buildJsxWorkflow(").concat(options.name, ")\nexport const dumpWorkflowText = dumpWorkflow(workflow)\n");
     fs.writeFileSync(path.resolve("./".concat(wfBuildTsConfigFileName)), wfBuildTsConfigContent);
     fs.writeFileSync(path.resolve("./".concat(dumpWorkflowScriptName)), dumpWorkflowScript);
     child_process.execSync("tsc --project ".concat(wfBuildTsConfigFileName));

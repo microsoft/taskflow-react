@@ -9,6 +9,7 @@ interface WorkflowNode {
     id: number;
     deps: number[];
 }
+declare function unitNodeGenerator(): WorkflowExecutionNode;
 
 interface Workflow {
     inputs: number[];
@@ -74,4 +75,4 @@ interface WorkflowExecutor {
 }
 declare function createWorkflowExecutor(wf: Workflow): WorkflowExecutor;
 
-export { ExecutionStatus, InputNodeComponent, InputNodeProps, NodeComponent, NodeProps, OutputNodeComponent, OutputNodeProps, Workflow, WorkflowComponent, WorkflowExecutionNode, WorkflowExecutor, WorkflowInputProps, WorkflowNode, WorkflowProps, WorkflowValidationStatus, buildJsxWorkflow, createWorkflowExecutor, dumpWorkflow, validateWorkflow };
+export { ExecutionStatus, InputNodeComponent, InputNodeProps, NodeComponent, NodeProps, OutputNodeComponent, OutputNodeProps, Workflow, WorkflowComponent, WorkflowExecutionNode, WorkflowExecutor, WorkflowInputProps, WorkflowNode, WorkflowProps, WorkflowValidationStatus, buildJsxWorkflow, createWorkflowExecutor, dumpWorkflow, unitNodeGenerator, validateWorkflow };

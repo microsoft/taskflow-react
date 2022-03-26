@@ -39,8 +39,8 @@ if (options.workflow && options.name) {
 
   let workflowTrimPath = options.workflow.substring(0, options.workflow.lastIndexOf('.'))
 let dumpWorkflowScript = `
-import { buildJsxWorkflow } from "./src/ReactElementWorkflowBuilder"
-import { dumpWorkflow } from "./src/Workflow"
+import { buildJsxWorkflow } from "taskflow-react"
+import { dumpWorkflow } from "taskflow-react"
 import {${options.name}} from "${workflowTrimPath}"
 const workflow = buildJsxWorkflow(${options.name})
 export const dumpWorkflowText = dumpWorkflow(workflow)
