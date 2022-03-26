@@ -16,9 +16,10 @@ export default [
             "path",
             "process",
             "typescript",
-            "react"
+            "react",
+            "commander",
+            "child_process"
         ]
-
     },
     {
         input: "./src/index.tsx",

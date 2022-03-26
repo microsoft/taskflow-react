@@ -19,6 +19,6 @@ if (options.workflow && options.name) {
     fs.writeFileSync(path.resolve("./".concat(wfBuildTsConfigFileName)), wfBuildTsConfigContent);
     fs.writeFileSync(path.resolve("./".concat(dumpWorkflowScriptName)), dumpWorkflowScript);
     child_process.execSync("tsc --project ".concat(wfBuildTsConfigFileName));
-    var child = child_process.spawnSync("node ./_workflow_compile_/dump_workflow_script.js");
-    console.log(child.output);
+    var result = child_process.execSync("node ./_workflow_compile_/dump_workflow_script.js");
+    console.log(result);
 }

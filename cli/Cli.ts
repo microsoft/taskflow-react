@@ -47,6 +47,6 @@ console.log(dumpWorkflowText)
     writeFileSync(resolve(`./${wfBuildTsConfigFileName}`), wfBuildTsConfigContent)
     writeFileSync(resolve(`./${dumpWorkflowScriptName}`), dumpWorkflowScript)
     execSync(`tsc --project ${wfBuildTsConfigFileName}`)
-    let child = spawnSync("node ./_workflow_compile_/dump_workflow_script.js")
-    console.log(child.output)
+    let result = execSync("cd _workflow_compile_ && node dump_workflow_script.js")
+    console.log(result)
 }
