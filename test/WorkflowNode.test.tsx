@@ -1,8 +1,9 @@
 import { buildJsxWorkflow } from "../src/ReactElementWorkflowBuilder";
 import { validateWorkflow, WorkflowValidationStatus } from "../src/Workflow";
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent, WorkflowInputProps } from "../src/WorkflowComponent";
-import { unitNodeGenerator } from "../src/WorkflowInnerNode";
+import { unitNodeGenerator } from "../src/WorkflowNode";
 import { add, double } from "./NodeWorkflowExample";
+import React from "react";
 
 test("workflow id test", async () => {
     const workflowJsx = (<WorkflowComponent>

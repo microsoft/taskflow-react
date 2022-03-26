@@ -1,6 +1,6 @@
 {
   "name": "taskflow-react",
-  "version": "0.2.2",
+  "version": "0.2.7",
   "description": "A promise and react based jsx style task flow library",
   "main": "./dist/index.js",
   "bin": {
@@ -32,6 +32,7 @@
   "dependencies": {
     "child_process": "^1.0.2",
     "react": "^17.0.2",
+    "commander": "^9.1.0",
     "typescript": "^4.6.2"
   },
   "devDependencies": {
@@ -40,7 +41,6 @@
     "@types/react": "^17.0.40",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
-    "commander": "^9.1.0",
     "eslint": "^8.11.0",
     "rollup": "^2.70.0",
     "rollup-plugin-dts": "^4.2.0",

@@ -1,3 +1,4 @@
+import React from "react";
 import { buildJsxWorkflow, dumpWorkflow } from "../src"
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent } from "../src/WorkflowComponent"
 import { add, AddWithDoubleWorkflow, double, DoubleWorkflow } from "./NodeWorkflowExample"

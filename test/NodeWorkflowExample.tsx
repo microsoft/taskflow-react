@@ -1,4 +1,5 @@
 import { NodeComponent, WorkflowInputProps, WorkflowComponent, InputNodeComponent, OutputNodeComponent } from "../src/WorkflowComponent"
+import React from "react";
 
 export function asyncAdd() {
     return {

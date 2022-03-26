@@ -3,6 +3,7 @@ import { validateWorkflow, WorkflowValidationStatus } from "../src/Workflow";
 import { InputNodeComponent, OutputNodeComponent, WorkflowComponent } from "../src/WorkflowComponent";
 import { createWorkflowExecutor } from "../src/WorkflowExecutor";
 import { ComputationWorkflow } from "./NodeWorkflowExample";
+import React from "react";
 
 test("top level workflow test", async () => {
     let topLevelWorkflow = <ComputationWorkflow />
