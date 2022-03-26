@@ -1,8 +1,7 @@
 import {program} from "commander"
 import {resolve} from "path"
-import {writeFileSync} from "fs"
+import {rmSync, writeFileSync} from "fs"
 import {execSync} from "child_process"
-
 
 program.option('-w, --workflow <type>', 'relative path to workflow file')
 program.option('-n, --name <type>', 'workflow name to compile in the file')
@@ -34,7 +33,11 @@ const wfBuildTsConfigContent =
 const dumpWorkflowScriptName = "dump_workflow_script.ts"
 
 if (options.workflow && options.name) {
-    let workflowTrimPath = options.workflow.substring(0, options.workflow.lastIndexOf('.'))
+  rmSync(resolve(wfBuildTsConfigFileName), {force: true, recursive: true})
+  rmSync(resolve(dumpWorkflowScriptName), {force: true, recursive: true})
+  rmSync(resolve("./_workflow_compile_"), {force: true, recursive: true})
+
+  let workflowTrimPath = options.workflow.substring(0, options.workflow.lastIndexOf('.'))
 let dumpWorkflowScript = `
 import { buildJsxWorkflow } from "./src/ReactElementWorkflowBuilder"
 import { dumpWorkflow } from "./src/Workflow"
@@ -42,11 +45,13 @@ import {${options.name}} from "${workflowTrimPath}"
 const workflow = buildJsxWorkflow(${options.name})
 export const dumpWorkflowText = dumpWorkflow(workflow)
 `
-    // const workflowPath = resolve(options.workflow)
     writeFileSync(resolve(`./${wfBuildTsConfigFileName}`), wfBuildTsConfigContent)
     writeFileSync(resolve(`./${dumpWorkflowScriptName}`), dumpWorkflowScript)
     execSync(`tsc --project ${wfBuildTsConfigFileName}`)
     const result = require("../_workflow_compile_/dump_workflow_script")
     console.log("\x1b[32m", result["dumpWorkflowText"])
     console.log("\x1b[37m")
+    rmSync(resolve(wfBuildTsConfigFileName), {force: true, recursive: true})
+    rmSync(resolve(dumpWorkflowScriptName), {force: true, recursive: true})
+    rmSync(resolve("./_workflow_compile_"), {force: true, recursive: true})
 }
