@@ -7,7 +7,10 @@
     "build": "rollup -c",
     "pub": "npm run build && npm publish",
     "test": "jest",
-    "lint": "eslint src/**"
+    "lint": "eslint src/**",
+    "conversion": "node ./bin/cli.js -w ./test/NodeWorkflowExample.tsx  -n WorkflowToTest",
+    "compile": "tsc --project tsconfig.workflow_build.json",
+    "run": "node ./_workflow_compile_/dump_workflow_script.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
   "author": "David Zeng",
   "license": "MIT",
   "dependencies": {
+    "child_process": "^1.0.2",
     "react": "^17.0.2",
     "typescript": "^4.6.2"
   },
@@ -35,6 +39,7 @@
     "@types/react": "^17.0.40",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
+    "commander": "^9.1.0",
     "eslint": "^8.11.0",
     "rollup": "^2.70.0",
     "rollup-plugin-dts": "^4.2.0",

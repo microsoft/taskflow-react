@@ -7,7 +7,7 @@
       "allowJs": false,
       "sourceMap": true,
       "experimentalDecorators": false,
-      "noUnusedLocals": true,
+      "noUnusedLocals": false,
       "esModuleInterop": true,
       "moduleResolution": "node",
       "types": [

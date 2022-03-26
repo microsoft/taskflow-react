@@ -66,3 +66,5 @@ export function ComputationWorkflow(props: WorkflowInputProps) {
         <OutputNodeComponent name="res" dep="finalAdd" />
     </WorkflowComponent>)
 }
+
+export let WorkflowToTest = <ComputationWorkflow />

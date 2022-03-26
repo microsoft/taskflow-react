@@ -2,3 +2,6 @@ node_modules/
 out/
 package-lock.json
 build/
+_workflow_compile_/
+dump_workflow_script.ts
+tsconfig.workflow_build.json
