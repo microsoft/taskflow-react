@@ -4,6 +4,8 @@ import { freController } from "./controller/FreController"
 import { workflowExecutor } from "./controller/FreWorkflow"
 import { BusinessPage } from "./views/BusinessPage"
 import { FrePage } from "./views/FrePage"
+import React from "react";
+
 export function App() {
   let [freDone, setFreDone] = useState(false)
   freController.setFreDone = setFreDone

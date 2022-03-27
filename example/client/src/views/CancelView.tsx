@@ -1,5 +1,6 @@
 import { freController } from "../controller/FreController"
 import { workflowExecutor } from "../controller/FreWorkflow"
+import React from "react";
 
 export function CancelView() {
     function cancel() {

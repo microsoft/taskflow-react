@@ -5,6 +5,7 @@ import { FirstPage } from "./FirstPage";
 import { LoadingPage } from "./LoadingPage";
 import { SecondPage } from "./SecondPage";
 import { ThirdPage } from "./ThirdPage";
+import React from "react";
 
 export enum FreState {
     First,

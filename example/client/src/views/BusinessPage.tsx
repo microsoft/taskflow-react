@@ -1,4 +1,5 @@
 import { useState } from "react"
+import React from "react";
 import { computationWorkflowExecutor } from "../controller/ComputationWorkflow"
 
 export function BusinessPage() {

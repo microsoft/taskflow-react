@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { freController } from "../controller/FreController"
+import React from "react";
 
 export function FirstPage() {
     let options = ['Technology', 'Entertainment', 'Travel', 'Food', 'Music', 'New Generation']

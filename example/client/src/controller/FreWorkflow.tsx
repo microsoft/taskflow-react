@@ -1,7 +1,7 @@
 import { FreState } from "../views/FrePage";
 import { freController } from "./FreController";
 import {WorkflowExecutionNode, WorkflowComponent, NodeComponent, buildJsxWorkflow, createWorkflowExecutor} from "taskflow-react"
-
+import React from "react";
 
 function firstPageNode() : WorkflowExecutionNode{
     return {
