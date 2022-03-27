@@ -1,6 +1,6 @@
 {
   "name": "taskflow-react",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A promise and react based jsx style task flow library",
   "main": "./dist/index.js",
   "bin": {
@@ -11,7 +11,8 @@
     "pub": "npm run build && npm publish",
     "test": "jest",
     "lint": "eslint src/**",
-    "conversion": "node ./bin/cli.js -w ./test/NodeWorkflowExample.tsx  -n WorkflowToTest"
+    "conversion": "node ./bin/cli.js -w ./test/NodeWorkflowExample.tsx  -n WorkflowToTest",
+    "cli": "rollup --config rollup.config.cli.js"
   },
   "repository": {
     "type": "git",
