@@ -1,3 +1,4 @@
+import React from "react";
 import { buildJsxWorkflow } from "../src/ReactElementWorkflowBuilder";
 import { validateWorkflow, WorkflowValidationStatus } from "../src/Workflow";
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent } from "../src/WorkflowComponent";

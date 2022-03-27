@@ -1,13 +1,25 @@
 {
   "name": "taskflow-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A promise and react based jsx style task flow library",
   "main": "./dist/index.js",
+  "bin": {
+    "taskflow-react-cli": "./bin/cli.js"
+  },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"      
+    }
+  },
   "scripts": {
     "build": "rollup -c",
-    "pub": "npm run build && npm publish",
+    "pub": "npm run build && npm run cli && npm publish",
     "test": "jest",
-    "lint": "eslint src/**"
+    "lint": "eslint src/**",
+    "cli": "rollup --config rollup.config.cli.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +38,9 @@
   "author": "David Zeng",
   "license": "MIT",
   "dependencies": {
+    "child_process": "^1.0.2",
     "react": "^17.0.2",
+    "commander": "^9.1.0",
     "typescript": "^4.6.2"
   },
   "devDependencies": {

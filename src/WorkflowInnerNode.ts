@@ -6,10 +6,3 @@ export interface WorkflowRunTimeNode {
     inputs: any[];
 }
 
-export function unitNodeGenerator() : WorkflowExecutionNode {
-    return {
-        run: (param: any) => {
-            return param
-        }
-    }
-}

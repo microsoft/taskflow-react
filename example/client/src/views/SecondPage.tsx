@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { freController } from "../controller/FreController"
 import { PageProps } from "./PageProps"
+import React from "react";
 
 export function SecondPage(props: PageProps) {
     let options = ['New York', 'Beijing', 'Hongkong', 'Moscow', 'Sydney', 'Paris', 'London']

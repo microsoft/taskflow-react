@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { freController } from "../controller/FreController"
 import { PageProps } from "./PageProps"
+import React from "react";
 
 export function ThirdPage(props: PageProps) {
     let options = ['Apple', 'Peach', 'watermelon', 'Strawberry', 'Pear', 'others']

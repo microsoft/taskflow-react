@@ -1,7 +1,7 @@
 import { FreState } from "../views/FrePage";
 import { freController } from "./FreController";
 import {WorkflowExecutionNode, WorkflowComponent, NodeComponent, buildJsxWorkflow, createWorkflowExecutor} from "taskflow-react"
-
+import React from "react";
 
 function firstPageNode() : WorkflowExecutionNode{
     return {
@@ -143,6 +143,8 @@ export function createWorkflow() {
         <NodeComponent name="showBusinessPage" gen={showBusinessPage} deps={["saveThirdPage"]} />
     </WorkflowComponent>
 }
+
+export const workflowDef = createWorkflow()
 
 const workflow = buildJsxWorkflow(createWorkflow());
 export const workflowExecutor = createWorkflowExecutor(workflow);

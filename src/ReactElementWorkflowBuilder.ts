@@ -2,7 +2,7 @@ import React from "react";
 import { Workflow } from "./Workflow";
 import { createWorkflowBuilder, WorkflowBuilder } from "./WorkflowBuilder";
 import { InputNodeComponent, NodeComponent, OutputNodeComponent, WorkflowComponent } from "./WorkflowComponent";
-import { unitNodeGenerator } from "./WorkflowInnerNode";
+import { unitNodeGenerator } from "./WorkflowNode";
 import { WorkflowNode } from "./WorkflowNode";
 import {WorkflowProps, InputNodeProps, OutputNodeProps, NodeProps, WorkflowInputProps} from "./WorkflowComponent"
 

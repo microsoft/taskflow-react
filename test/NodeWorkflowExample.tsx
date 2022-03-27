@@ -1,4 +1,5 @@
 import { NodeComponent, WorkflowInputProps, WorkflowComponent, InputNodeComponent, OutputNodeComponent } from "../src/WorkflowComponent"
+import React from "react";
 
 export function asyncAdd() {
     return {
@@ -66,3 +67,5 @@ export function ComputationWorkflow(props: WorkflowInputProps) {
         <OutputNodeComponent name="res" dep="finalAdd" />
     </WorkflowComponent>)
 }
+
+export let WorkflowToTest = <ComputationWorkflow />

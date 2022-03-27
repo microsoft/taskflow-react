@@ -1,4 +1,5 @@
 import {WorkflowExecutionNode, WorkflowComponent, InputNodeComponent, NodeComponent, OutputNodeComponent, buildJsxWorkflow, createWorkflowExecutor} from "taskflow-react"
+import React from "react";
 
 function asyncAddNode() : WorkflowExecutionNode {
     return {

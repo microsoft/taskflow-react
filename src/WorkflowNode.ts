@@ -8,3 +8,11 @@ export interface WorkflowNode {
     id: number;
     deps: number[];
 }
+
+export function unitNodeGenerator() : WorkflowExecutionNode {
+    return {
+        run: (param: any) => {
+            return param
+        }
+    }
+}

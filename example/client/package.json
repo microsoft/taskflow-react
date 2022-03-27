@@ -13,14 +13,15 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
-    "taskflow-react": "^0.2.2",
+    "taskflow-react": "^0.2.3",
     "typescript": "^4.6.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "workflow": "taskflow-react-cli -w ./src/controller/FreWorkflow.tsx -n workflowDef"
   },
   "eslintConfig": {
     "extends": [
