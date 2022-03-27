@@ -1,5 +1,5 @@
 # React and promise based task flow library
-Now a lot of features are task flow based. You could break features into a seriese of tasks with order and dependency. For example, to start task C, you have to wait for task A / B and then take their outputs for further process. To express and reuse task flow easily, it could help improve development efficiency. We would refer task flow as Workflow in code.
+Now a lot of features are task flow based. You could break features into a seriese of tasks with order and dependency. For example, to start task C, you have to wait for task A / B and then take their outputs for further process. To express and reuse task flow easily and visually, it could help improve development efficiency. We would refer task flow as Workflow in code.
 
 ## Example
 Take the task flow below, there are 4 params for input. The task flow would add all 4 params with 3 add nodes and then double the sum with double node. Then the double node's result would be set as task flow's output.
@@ -67,3 +67,16 @@ Currently the task flow expression only supports **react functional component**.
 For task that needs to wait for user's input like clicking button, please keep the resolve function. When user clicks the button, you run the resolve function with input needed.
 
 For UI specify task flow, it is recommended to define something like bridge to keep state and callback functions to update UI.
+
+Although the library has dependency on **react**, however we don't need to actually need it at run time. There is an interface **dumpWorkflow** which would dump the workflow into code. Then you could create the workflow without react. For example, in **./test/DumpWorkflow.test.tsx**
+```
+{inputs:[0,1,2],zeroDepNodes:[],nodes:[{id:0,deps:[],gen:unitNodeGenerator},{id:1,deps:[],gen:unitNodeGenerator},{id:2,deps:[],gen:unitNodeGenerator},{id:3,deps:[1],gen:double},{id:4,deps:[0,3],gen:add},{id:5,deps:[2],gen:double},{id:6,deps:[4,5],gen:add},],outputs:{6:"res",},binding:{0:[4],1:[3],2:[5],3:[4],4:[6],5:[6],},}
+```
+Here you need to import **unitNodeGenerator** from the library, and other node generator functions.
+
+Also, if you are using typescript, there is cli which could generate the code by specifying the file path and exported workflow instance. Please check packages of **example/client/**,
+```
+    "workflow": "taskflow-react-cli -w ./src/controller/FreWorkflow.tsx -n workflowDef"
+```
+
+-w specifies the file path and -n specfies the name of workflow instance exported.
