@@ -9,7 +9,7 @@ export interface WorkflowBuilder {
 }
 
 export function createWorkflowBuilder() : WorkflowBuilder {
-    let inputs: number[] = []
+    const inputs: number[] = []
     const zeroDepNodes: number[] = []
     let outputs: Record<number, string> = {}
     let nodes: WorkflowNode[] = []

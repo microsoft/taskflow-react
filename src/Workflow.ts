@@ -48,25 +48,25 @@ function dumpNode(node: WorkflowNode) : string{
 }
 
 export function dumpWorkflow(workflow: Workflow) : string {
-    let str: string = "{"
+    let str = "{"
     str += `inputs:${JSON.stringify(workflow.inputs)},`
 
     str += `zeroDepNodes:${JSON.stringify(workflow.zeroDepNodes)},`
 
     str += 'nodes:['
-    for (let node of workflow.nodes) {
+    for (const node of workflow.nodes) {
         str += dumpNode(node)
     }
     str += '],'
 
     str += 'outputs:{'
-    for (let key in workflow.outputs) {
+    for (const key in workflow.outputs) {
         str += key + ':' + JSON.stringify(workflow.outputs[key]) + ','
     }
     str += '},'
 
     str += 'binding:{'
-    for (let key in workflow.binding) {
+    for (const key in workflow.binding) {
         str += key + ':' + JSON.stringify(workflow.binding[key]) + ','
     }
     str += '},'
