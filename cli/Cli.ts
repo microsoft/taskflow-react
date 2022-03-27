@@ -1,7 +1,7 @@
 import {program} from "commander"
 import {resolve} from "path"
 import {rmSync, writeFileSync} from "fs"
-import {execSync} from "child_process"
+import {exec} from "child_process"
 
 program.option('-w, --workflow <type>', 'relative path to workflow file')
 program.option('-n, --name <type>', 'workflow name to compile in the file')
@@ -25,7 +25,7 @@ const wfBuildTsConfigContent =
         "node",
         "jest",
       ],
-      "jsx": "react-jsx"
+      "jsx": "react"
     }
   }
 `
@@ -47,11 +47,19 @@ export const dumpWorkflowText = dumpWorkflow(workflow)
 `
     writeFileSync(resolve(`./${wfBuildTsConfigFileName}`), wfBuildTsConfigContent)
     writeFileSync(resolve(`./${dumpWorkflowScriptName}`), dumpWorkflowScript)
-    execSync(`tsc --project ${wfBuildTsConfigFileName}`)
-    const result = require("../_workflow_compile_/dump_workflow_script")
-    console.log("\x1b[32m", result["dumpWorkflowText"])
-    console.log("\x1b[37m")
-    rmSync(resolve(wfBuildTsConfigFileName), {force: true, recursive: true})
-    rmSync(resolve(dumpWorkflowScriptName), {force: true, recursive: true})
-    rmSync(resolve("./_workflow_compile_"), {force: true, recursive: true})
+    exec(`tsc --project ${wfBuildTsConfigFileName}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+
+      const result = require("../../../_workflow_compile_/dump_workflow_script")
+      console.log("\x1b[32m", result["dumpWorkflowText"])
+      console.log("\x1b[37m")
+      rmSync(resolve(wfBuildTsConfigFileName), {force: true, recursive: true})
+      rmSync(resolve(dumpWorkflowScriptName), {force: true, recursive: true})
+      rmSync(resolve("./_workflow_compile_"), {force: true, recursive: true})
+    });
 }

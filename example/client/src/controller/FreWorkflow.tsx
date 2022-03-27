@@ -144,5 +144,7 @@ export function createWorkflow() {
     </WorkflowComponent>
 }
 
+export const workflowDef = createWorkflow()
+
 const workflow = buildJsxWorkflow(createWorkflow());
 export const workflowExecutor = createWorkflowExecutor(workflow);
