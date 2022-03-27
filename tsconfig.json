@@ -15,5 +15,6 @@
         "jest",
       ],
       "jsx": "react"
-    }
+    },
+    "exclude": ["example", "md", "bin", "dist", "node_modules"]
   }

@@ -15,7 +15,7 @@ function setNodeId(name: string, id: number) {
 
 function genNodeId(name: string) : number {
     if (name in workflowNodeNameToIdMap) {
-        return -1
+        throw `node ${name} already defined`
     }
 
     workflowNodeNameToIdMap[name] = ++workflowNodeId
@@ -27,7 +27,7 @@ function getNodeId(name: string) : number {
         return workflowNodeNameToIdMap[name]
     }
 
-    return -1
+    throw `node ${name} not defined`
 }
 
 type customWorkflowFunc = (...params: any[]) => any;
@@ -63,10 +63,6 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
             const params: string[] = childProps.params
             for (let inx = 0; inx < params.length; ++inx) {
                 const depId = getNodeId(prefix + "." + outSideParams[inx])
-                if (depId < 0) {
-                    throw "dependency must be defined before it's used"
-                }
-
                 setNodeId(workflowName + "." + params[inx], depId)
             }
         } else if (child.type == OutputNodeComponent) {
@@ -74,10 +70,6 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
             const name: string = childProps.name
             const dep: string = childProps.dep
             const id = getNodeId(workflowName + "." + dep)
-            if (id < 0) {
-                throw "dependency must be defined before it's used"
-            }
-
             setNodeId(workflowName + "." + name, id)
         } else if (child.type == NodeComponent) {
             const nodeProps: NodeProps = child.props
@@ -87,26 +79,18 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
             if (deps && deps.length) {
                 for (const dep of deps) {
                     const id = getNodeId(workflowName + "." + dep)
-                    if (id < 0) {
-                        throw "dependency must be defined before it's used"
-                    }
-
                     depIds.push(id)
                 }
             }
 
             const id = genNodeId(workflowName + "." + name)
-            if (id < 0) {
-                throw "duplicate node name found " + workflowName + "." + name
-            }
-
             nodes.push({
                 id: id,
                 deps: depIds,
                 gen: nodeProps.gen
             })
         } else {
-            let runElement: React.ReactElement = resolveTillWorkflowComponent(child)            
+            const runElement: React.ReactElement = resolveTillWorkflowComponent(child)            
             nodes = nodes.concat(buildSubWorkflow(runElement, workflowName))
         }
     }
@@ -115,7 +99,7 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
 }
 
 export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workflow{
-    let element: React.ReactElement = resolveTillWorkflowComponent(elementDefinition)
+    const element: React.ReactElement = resolveTillWorkflowComponent(elementDefinition)
     const props: WorkflowProps = element.props;
     const children : React.ReactElement[] = props.children
     const workflowName = ""
@@ -176,7 +160,7 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
                 gen: childProps.gen
             })
         } else {
-            let runElement: React.ReactElement = resolveTillWorkflowComponent(child)
+            const runElement: React.ReactElement = resolveTillWorkflowComponent(child)
             innerNodes = innerNodes.concat(buildSubWorkflow(runElement, workflowName));
         }
     }

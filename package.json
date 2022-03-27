@@ -15,11 +15,11 @@
     }
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup --config rollup.config.ts",
     "pub": "npm run build && npm run cli && npm publish",
     "test": "jest",
     "lint": "eslint src/**",
-    "cli": "rollup --config rollup.config.cli.js"
+    "cli": "rollup --config rollup.config.cli.ts"
   },
   "repository": {
     "type": "git",
