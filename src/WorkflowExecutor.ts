@@ -89,6 +89,10 @@ export function createWorkflowExecutor(wf: Workflow) {
         },
 
         cancel() : void {
+            if (status != ExecutionStatus.Running) {
+                return;
+            }
+
             status = ExecutionStatus.Cancelled
             for (const node of runningNodes) {
                 if (node.node.cancel) {
@@ -133,8 +137,9 @@ export function createWorkflowExecutor(wf: Workflow) {
                             result = node.node.run(...node.inputs)
                         }
                         catch(err) {
-                            status = ExecutionStatus.Failure
                             executor.cancel()
+                            status = ExecutionStatus.Failure
+                            result = undefined
                             break
                         }
     
@@ -156,8 +161,9 @@ export function createWorkflowExecutor(wf: Workflow) {
                                 }
                             })
                             .catch(() => {
-                                status = ExecutionStatus.Failure
                                 executor.cancel()
+                                status = ExecutionStatus.Failure
+                                result = undefined
                             })
     
                             pendingPromises.push(pendingResult)
