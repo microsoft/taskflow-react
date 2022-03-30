@@ -7,6 +7,7 @@ import { WorkflowNode } from "./WorkflowNode";
 import {WorkflowProps, InputNodeProps, OutputNodeProps, NodeProps, WorkflowInputProps} from "./WorkflowComponent"
 
 let workflowNodeNameToIdMap : Record<string, number> = {}
+let workflowExecutionNodeIdToNameMap: Record<number, string> = {}
 let workflowNodeId = -1
 
 function setNodeId(name: string, id: number) {
@@ -19,6 +20,7 @@ function genNodeId(name: string) : number {
     }
 
     workflowNodeNameToIdMap[name] = ++workflowNodeId
+    workflowExecutionNodeIdToNameMap[workflowNodeId] = name
     return workflowNodeId
 }
 
@@ -98,7 +100,7 @@ function buildSubWorkflow(element: React.ReactElement, prefix: string) : Workflo
     return nodes
 }
 
-export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workflow{
+export function buildJsxWorkflow(elementDefinition: React.ReactElement, addNodeName: boolean = false) : Workflow{ // eslint-disable-line
     const element: React.ReactElement = resolveTillWorkflowComponent(elementDefinition)
     const props: WorkflowProps = element.props;
     const children : React.ReactElement[] = props.children
@@ -112,10 +114,6 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
             const params: string[] = childProps.params
             for (const param of params) {
                 const id = genNodeId(workflowName + "." + param)
-                if (id < 0) {
-                    throw "duplicate node name found " + workflowName + "." + param
-                }
-
                 inputNodes.push({
                     id: id,
                     deps: [],
@@ -127,10 +125,6 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
             const name: string = childProps.name
             const dep: string = childProps.dep
             const id = getNodeId(workflowName + "." + dep)
-            if (id < 0) {
-                throw "dependency must be defined before it's used"
-            }
-
             setNodeId(workflowName + "." + name, id)
             outputs[id] = name
         } else if (child.type == NodeComponent) {
@@ -141,19 +135,11 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
             if (deps && deps.length) {
                 for (const dep of deps) {
                     const id = getNodeId(workflowName + "." + dep)
-                    if (id < 0) {
-                        throw "dependency must be defined before it's used"
-                    }
-
                     depIds.push(id)
                 }
             }
 
             const id = genNodeId(workflowName + "." + name)
-            if (id < 0) {
-                throw "duplicate node name found " + workflowName + "." + name
-            }
-
             innerNodes.push({
                 id: id,
                 deps: depIds,
@@ -172,5 +158,10 @@ export function buildJsxWorkflow(elementDefinition: React.ReactElement) : Workfl
     .next(innerNodes)
     .output(outputs);
 
+    if (addNodeName) {
+        workflowBuilder.nodeNames(Object.assign({}, workflowExecutionNodeIdToNameMap))
+    }
+
+    workflowExecutionNodeIdToNameMap = {}
     return workflowBuilder.build()
 }

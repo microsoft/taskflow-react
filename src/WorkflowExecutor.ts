@@ -9,12 +9,23 @@ export enum ExecutionStatus {
     Done = 4,
 }
 
+export interface NodeExecutionStatus {
+    status: ExecutionStatus;
+    id: number;
+    start: number;
+    end: number;
+    name?: string;
+}
+
 export interface WorkflowExecutor {
     cancel() : void;
     run(...params: any[]) : Promise<any>;
     setTimeout(timeout: number) : void;
     reset() : void;
     state() : ExecutionStatus;
+    inst(inst: boolean) : void;
+    workflow() : Workflow;
+    stats(): NodeExecutionStatus[];
 }
 
 export function createWorkflowExecutor(wf: Workflow) {
@@ -26,6 +37,7 @@ export function createWorkflowExecutor(wf: Workflow) {
     let runningNodes: WorkflowRunTimeNode[] = [];
     let pendingPromises: Promise<any>[] = []
     function update(id: number, oriResult: any) : WorkflowRunTimeNode[] {
+        updateNodeExecutionStatus(id, ExecutionStatus.Done)
         if (typeof oriResult === 'undefined') {
             return []
         }
@@ -71,9 +83,46 @@ export function createWorkflowExecutor(wf: Workflow) {
         return newNodesToRun
     }
 
+    let enableInst = false
+    let nodeExecutionStatus: NodeExecutionStatus[] = []
+    function updateNodeExecutionStatus(id: number, status: ExecutionStatus) {
+        if (enableInst) {
+            if (status == ExecutionStatus.Running) {
+                nodeExecutionStatus.push({
+                    id: id,
+                    start: new Date().getTime(),
+                    end: 0,
+                    status: status,
+                    name: workflow.nodeNames ? ((id in workflow.nodeNames) ? workflow.nodeNames[id] : undefined) : undefined
+                })
+            } else {
+                // search from last one
+                for (let inx = nodeExecutionStatus.length - 1; inx >= 0; inx--) {
+                    if (nodeExecutionStatus[inx].id == id) {
+                        nodeExecutionStatus[inx].status = status
+                        nodeExecutionStatus[inx].end = new Date().getTime()
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     const executor: WorkflowExecutor = {
         state() : ExecutionStatus {
             return status
+        },
+
+        inst(inst: boolean) : void {
+            enableInst = inst
+        },
+
+        stats() : NodeExecutionStatus[] {
+            return nodeExecutionStatus
+        },
+
+        workflow() : Workflow {
+            return wf
         },
 
         reset() : void {
@@ -82,6 +131,7 @@ export function createWorkflowExecutor(wf: Workflow) {
             output = {}
             runningNodes = [];
             pendingPromises = []
+            nodeExecutionStatus = []
         },
 
         setTimeout(timeout: number) : void {
@@ -96,6 +146,7 @@ export function createWorkflowExecutor(wf: Workflow) {
             status = ExecutionStatus.Cancelled
             for (const node of runningNodes) {
                 if (node.node.cancel) {
+                    updateNodeExecutionStatus(node.id, ExecutionStatus.Cancelled)
                     node.node.cancel()
                 }
             }
@@ -134,11 +185,13 @@ export function createWorkflowExecutor(wf: Workflow) {
                         const node: WorkflowRunTimeNode = nodesToRun.pop()!
                         let result = undefined
                         try{
+                            updateNodeExecutionStatus(node.id, ExecutionStatus.Running)
                             result = node.node.run(...node.inputs)
                         }
                         catch(err) {
                             executor.cancel()
                             status = ExecutionStatus.Failure
+                            updateNodeExecutionStatus(node.id, ExecutionStatus.Failure)
                             result = undefined
                             break
                         }
@@ -163,6 +216,7 @@ export function createWorkflowExecutor(wf: Workflow) {
                             .catch(() => {
                                 executor.cancel()
                                 status = ExecutionStatus.Failure
+                                updateNodeExecutionStatus(node.id, ExecutionStatus.Failure)
                                 result = undefined
                             })
     

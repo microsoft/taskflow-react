@@ -6,6 +6,7 @@ export interface Workflow {
     nodes: WorkflowNode[];
     outputs: Record<number, string>;
     binding: Record<number, number[]>;
+    nodeNames?: Record<number, string>;
 }
 
 export enum WorkflowValidationStatus {
