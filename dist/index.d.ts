@@ -17,6 +17,7 @@ interface Workflow {
     nodes: WorkflowNode[];
     outputs: Record<number, string>;
     binding: Record<number, number[]>;
+    nodeNames?: Record<number, string>;
 }
 declare enum WorkflowValidationStatus {
     OK = 0,
@@ -33,7 +34,7 @@ declare enum WorkflowValidationStatus {
 declare function dumpWorkflow(workflow: Workflow): string;
 declare function validateWorkflow(workflow: Workflow): WorkflowValidationStatus;
 
-declare function buildJsxWorkflow(elementDefinition: React.ReactElement): Workflow;
+declare function buildJsxWorkflow(elementDefinition: React.ReactElement, addNodeName?: boolean): Workflow;
 
 interface WorkflowProps {
     children: JSX.Element[];
@@ -66,13 +67,23 @@ declare enum ExecutionStatus {
     Failure = 3,
     Done = 4
 }
+interface NodeExecutionStatus {
+    status: ExecutionStatus;
+    id: number;
+    start: number;
+    end: number;
+    name?: string;
+}
 interface WorkflowExecutor {
     cancel(): void;
     run(...params: any[]): Promise<any>;
     setTimeout(timeout: number): void;
     reset(): void;
     state(): ExecutionStatus;
+    inst(inst: boolean): void;
+    workflow(): Workflow;
+    stats(): NodeExecutionStatus[];
 }
 declare function createWorkflowExecutor(wf: Workflow): WorkflowExecutor;
 
-export { ExecutionStatus, InputNodeComponent, InputNodeProps, NodeComponent, NodeProps, OutputNodeComponent, OutputNodeProps, Workflow, WorkflowComponent, WorkflowExecutionNode, WorkflowExecutor, WorkflowInputProps, WorkflowNode, WorkflowProps, WorkflowValidationStatus, buildJsxWorkflow, createWorkflowExecutor, dumpWorkflow, unitNodeGenerator, validateWorkflow };
+export { ExecutionStatus, InputNodeComponent, InputNodeProps, NodeComponent, NodeExecutionStatus, NodeProps, OutputNodeComponent, OutputNodeProps, Workflow, WorkflowComponent, WorkflowExecutionNode, WorkflowExecutor, WorkflowInputProps, WorkflowNode, WorkflowProps, WorkflowValidationStatus, buildJsxWorkflow, createWorkflowExecutor, dumpWorkflow, unitNodeGenerator, validateWorkflow };

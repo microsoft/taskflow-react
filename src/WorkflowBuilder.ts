@@ -6,6 +6,7 @@ export interface WorkflowBuilder {
     input(nodes: WorkflowNode[]) : WorkflowBuilder;
     next(nodes: WorkflowNode[]) : WorkflowBuilder;
     output(output: Record<number, string>) : WorkflowBuilder;
+    nodeNames(namesMap: Record<number, string>) : WorkflowBuilder;
 }
 
 export function createWorkflowBuilder() : WorkflowBuilder {
@@ -14,6 +15,7 @@ export function createWorkflowBuilder() : WorkflowBuilder {
     let outputs: Record<number, string> = {}
     let nodes: WorkflowNode[] = []
     const binding: Record<number, number[]> = {}
+    let idToNameMap: Record<number, string> | undefined = undefined
     const builder : WorkflowBuilder = {
         build: () => {
             nodes.sort((a: WorkflowNode, b: WorkflowNode) => {
@@ -25,7 +27,8 @@ export function createWorkflowBuilder() : WorkflowBuilder {
                 outputs: outputs,
                 nodes: nodes,
                 binding: binding,
-                zeroDepNodes: zeroDepNodes
+                zeroDepNodes: zeroDepNodes,
+                nodeNames: idToNameMap
             }
 
             return workflow
@@ -63,6 +66,11 @@ export function createWorkflowBuilder() : WorkflowBuilder {
 
             nodes = nodes.concat(nextNodes)    
             return builder;
+        },
+
+        nodeNames: (nodeMap: Record<number, string>) => {
+            idToNameMap = nodeMap
+            return builder
         }
     }
 
