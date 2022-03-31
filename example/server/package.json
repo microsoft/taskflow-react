@@ -19,7 +19,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "react": "^17.0.2",
-    "taskflow-react": "^0.2.3"
+    "taskflow-react": "^0.2.5"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.16.7",
