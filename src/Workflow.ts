@@ -71,6 +71,14 @@ export function dumpWorkflow(workflow: Workflow) : string {
         str += key + ':' + JSON.stringify(workflow.binding[key]) + ','
     }
     str += '},'
+    if (workflow.nodeNames) {
+        str += "nodeNames:{"
+        for (const key in workflow.nodeNames) {
+            str += key + ":" + JSON.stringify(workflow.nodeNames[key]) + ","
+        }
+
+        str += "},"
+    }
     str += "}"
     return str
 }
