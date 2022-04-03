@@ -3,8 +3,8 @@ import {buildJsxWorkflow, InputNodeComponent, NodeComponent, OutputNodeComponent
 
 function add() {
     return {
-        run(num1, num2) {
-            return new Promise((resolve, reject) => {
+        run(num1 : number, num2 : number) {
+            return new Promise<number>((resolve, reject) => {
                 setTimeout(() => {
                     resolve(num1 + num2)
                 }, 2000)
@@ -15,7 +15,7 @@ function add() {
 
 function double() {
     return {
-        run(num) {
+        run(num: number) {
             return num * 2
         }
     }
