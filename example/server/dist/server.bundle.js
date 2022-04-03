@@ -31,28 +31,6 @@ eval("\n\n/**\n * Expose `arrayFlatten`.\n */\nmodule.exports = arrayFlatten\n\n
 
 /***/ }),
 
-/***/ "./server.jsx":
-/*!********************!*\
-  !*** ./server.jsx ***!
-  \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ \"./node_modules/express/index.js\");\n/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var taskflow_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! taskflow-react */ \"./node_modules/taskflow-react/dist/index.js\");\n/* harmony import */ var _workflow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workflow */ \"./workflow.jsx\");\n\n\n\n\nfunction handleRequest(req, res) {\n  const workflowExecutor = (0,taskflow_react__WEBPACK_IMPORTED_MODULE_1__.createWorkflowExecutor)(_workflow__WEBPACK_IMPORTED_MODULE_2__.workflow);\n  const ret = workflowExecutor.run(1, 2, 3);\n  ret.then(value => {\n    res.json(value);\n  });\n}\n\nconst app = express__WEBPACK_IMPORTED_MODULE_0___default()();\napp.get(\"*\", handleRequest);\napp.listen(3000);\nconsole.log('Listening localhost port 3000');\n\n//# sourceURL=webpack://server/./server.jsx?");
-
-/***/ }),
-
-/***/ "./workflow.jsx":
-/*!**********************!*\
-  !*** ./workflow.jsx ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"workflow\": () => (/* binding */ workflow)\n/* harmony export */ });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var taskflow_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! taskflow-react */ \"./node_modules/taskflow-react/dist/index.js\");\n\n\n\nfunction add() {\n  return {\n    run(num1, num2) {\n      return new Promise((resolve, reject) => {\n        setTimeout(() => {\n          resolve(num1 + num2);\n        }, 2000);\n      });\n    }\n\n  };\n}\n\nfunction double() {\n  return {\n    run(num) {\n      return num * 2;\n    }\n\n  };\n}\n\nconst workflowJsx = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.WorkflowComponent, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.InputNodeComponent, {\n  params: [\"num1\", \"num2\", \"num3\"]\n}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.NodeComponent, {\n  name: \"add\",\n  gen: add,\n  deps: [\"num1\", \"num2\"]\n}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.NodeComponent, {\n  name: \"double\",\n  gen: double,\n  deps: ['num3']\n}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.NodeComponent, {\n  name: \"finalAdd\",\n  gen: add,\n  deps: [\"add\", \"double\"]\n}), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(taskflow_react__WEBPACK_IMPORTED_MODULE_1__.OutputNodeComponent, {\n  name: \"res\",\n  dep: \"finalAdd\"\n}));\nconst workflow = (0,taskflow_react__WEBPACK_IMPORTED_MODULE_1__.buildJsxWorkflow)(workflowJsx);\n\n//# sourceURL=webpack://server/./workflow.jsx?");
-
-/***/ }),
-
 /***/ "./node_modules/body-parser/index.js":
 /*!*******************************************!*\
   !*** ./node_modules/body-parser/index.js ***!
@@ -1208,6 +1186,28 @@ eval("/*!\n * toidentifier\n * Copyright(c) 2016 Douglas Christopher Wilson\n * 
 
 /***/ }),
 
+/***/ "./src/server.ts":
+/*!***********************!*\
+  !*** ./src/server.ts ***!
+  \***********************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar express_1 = __importDefault(__webpack_require__(/*! express */ \"./node_modules/express/index.js\"));\r\nvar taskflow_react_1 = __webpack_require__(/*! taskflow-react */ \"./node_modules/taskflow-react/dist/index.js\");\r\nvar workflow_1 = __webpack_require__(/*! ./workflow */ \"./src/workflow.tsx\");\r\nfunction handleRequest(req, res) {\r\n    var workflowExecutor = (0, taskflow_react_1.createWorkflowExecutor)(workflow_1.workflow);\r\n    var ret = workflowExecutor.run(1, 2, 3);\r\n    ret.then(function (value) {\r\n        res.json(value);\r\n    });\r\n}\r\nvar app = (0, express_1.default)();\r\napp.get(\"*\", handleRequest);\r\napp.listen(3000);\r\nconsole.log('Listening localhost port 3000');\r\n\n\n//# sourceURL=webpack://server/./src/server.ts?");
+
+/***/ }),
+
+/***/ "./src/workflow.tsx":
+/*!**************************!*\
+  !*** ./src/workflow.tsx ***!
+  \**************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nexports.workflow = void 0;\r\nvar react_1 = __importDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\r\nvar taskflow_react_1 = __webpack_require__(/*! taskflow-react */ \"./node_modules/taskflow-react/dist/index.js\");\r\nfunction add() {\r\n    return {\r\n        run: function (num1, num2) {\r\n            return new Promise(function (resolve, reject) {\r\n                setTimeout(function () {\r\n                    resolve(num1 + num2);\r\n                }, 2000);\r\n            });\r\n        }\r\n    };\r\n}\r\nfunction double() {\r\n    return {\r\n        run: function (num) {\r\n            return num * 2;\r\n        }\r\n    };\r\n}\r\nvar workflowJsx = (react_1.default.createElement(taskflow_react_1.WorkflowComponent, null,\r\n    react_1.default.createElement(taskflow_react_1.InputNodeComponent, { params: [\"num1\", \"num2\", \"num3\"] }),\r\n    react_1.default.createElement(taskflow_react_1.NodeComponent, { name: 'add', gen: add, deps: [\"num1\", \"num2\"] }),\r\n    react_1.default.createElement(taskflow_react_1.NodeComponent, { name: 'double', gen: double, deps: ['num3'] }),\r\n    react_1.default.createElement(taskflow_react_1.NodeComponent, { name: 'finalAdd', gen: add, deps: [\"add\", \"double\"] }),\r\n    react_1.default.createElement(taskflow_react_1.OutputNodeComponent, { name: 'res', dep: 'finalAdd' })));\r\nexports.workflow = (0, taskflow_react_1.buildJsxWorkflow)(workflowJsx);\r\n\n\n//# sourceURL=webpack://server/./src/workflow.tsx?");
+
+/***/ }),
+
 /***/ "./node_modules/type-is/index.js":
 /*!***************************************!*\
   !*** ./node_modules/type-is/index.js ***!
@@ -1556,18 +1556,6 @@ eval("module.exports = JSON.parse('{\"100\":\"Continue\",\"101\":\"Switching Pro
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -1609,8 +1597,8 @@ eval("module.exports = JSON.parse('{\"100\":\"Continue\",\"101\":\"Switching Pro
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./server.jsx");
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/server.ts");
 /******/ 	
 /******/ })()
 ;
